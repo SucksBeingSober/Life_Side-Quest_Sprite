@@ -1,0 +1,29 @@
+{
+  "name": "life-sidequest",
+  "version": "1.0.0",
+  "private": true,
+  "main": "desktop/main.cjs",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "start:direct": "node server.mjs",
+    "pet": "node desktop/launch.mjs",
+    "test:smoke": "node scripts/smoke.mjs",
+    "test:state": "node scripts/state-tests.mjs",
+    "test:ai": "node scripts/ai-pipeline.mjs"
+  },
+  "dependencies": {
+    "next": "^15.5.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "electron": "^33.0.0",
+    "typescript": "^5.7.0"
+  }
+}

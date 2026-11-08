@@ -1,0 +1,319 @@
+:root {
+  --ink: #2a2520;
+  --ink-soft: #4e453a;
+  --cream: #fffdf8;
+  --line: #e7dac3;
+  --accent: #f0653f;
+  --sans: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent;
+  font-family: var(--sans);
+  -webkit-app-region: no-drag;
+}
+
+body {
+  cursor: default;
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 4px 8px 2px;
+}
+
+/* ---------- speech bubble ---------- */
+
+.bubble {
+  position: relative;
+  max-width: 212px;
+  min-width: 92px;
+  margin-bottom: 2px;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 16px 16px 16px 5px;
+  background: var(--cream);
+  color: var(--ink-soft);
+  font-size: 12.5px;
+  line-height: 1.55;
+  text-align: left;
+  box-shadow: 0 14px 30px -20px rgba(74, 52, 30, 0.55);
+  opacity: 0;
+  transform: translateY(6px) scale(0.97);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+.bubble p {
+  margin: 0;
+}
+
+.bubble.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.bubble::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 10px;
+  height: 10px;
+  background: var(--cream);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+/* ---------- pet ---------- */
+
+.pet {
+  position: relative;
+  width: 166px;
+  height: 166px;
+  flex: none;
+  cursor: grab;
+  touch-action: none;
+  -webkit-app-region: no-drag;
+}
+
+.pet:active {
+  cursor: grabbing;
+}
+
+.pet .shadow {
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  width: 96px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(42, 37, 32, 0.16);
+  filter: blur(3px);
+  transform: translateX(-50%);
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.flip {
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 72%;
+  transition: transform 0.14s ease;
+}
+
+.pet.flip-left .flip {
+  transform: scaleX(-1);
+}
+
+.pet-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transform-origin: 50% 100%;
+  filter: drop-shadow(0 12px 18px rgba(120, 80, 30, 0.2));
+  animation: breathe 3.6s ease-in-out infinite;
+}
+
+.eyes {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: blink 5.4s infinite;
+}
+
+.antenna-glow {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.sparkles {
+  animation: twinkle 4.2s ease-in-out infinite;
+}
+
+.foot {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* ---------- states ---------- */
+
+.pet.walking {
+  animation: hop 0.46s ease-in-out infinite;
+}
+
+.pet.walking .foot-l {
+  animation: step 0.46s ease-in-out infinite;
+}
+
+.pet.walking .foot-r {
+  animation: step 0.46s ease-in-out infinite 0.23s;
+}
+
+.pet.walking .shadow {
+  animation: shadowPulse 0.46s ease-in-out infinite;
+}
+
+.pet.following {
+  animation: trot 0.5s ease-in-out infinite;
+}
+
+.pet.following .foot-l {
+  animation: step 0.5s ease-in-out infinite;
+}
+
+.pet.following .foot-r {
+  animation: step 0.5s ease-in-out infinite 0.25s;
+}
+
+.pet.following .pet-svg {
+  animation: lean 0.5s ease-in-out infinite;
+}
+
+.pet.dragging {
+  animation: none;
+}
+
+.pet.dragging .pet-svg {
+  animation: none;
+  transform: rotate(-5deg) scale(1.03);
+}
+
+.pet.dragging .eyes {
+  animation: none;
+  transform: scaleY(1.12);
+}
+
+.pet.dragging .shadow {
+  transform: translateX(-50%) scale(0.8);
+  opacity: 0.5;
+}
+
+.pet.dragging .foot-l,
+.pet.dragging .foot-r {
+  animation: none;
+}
+
+/* ---------- animations ---------- */
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    transform: scale(1.02) translateY(-1.5px);
+  }
+}
+
+@keyframes blink {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.08);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes hop {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes trot {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+  50% {
+    transform: translateY(-4px) rotate(-1.5deg);
+  }
+}
+
+@keyframes lean {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+}
+
+@keyframes step {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+  50% {
+    transform: translateY(-3px) rotate(-10deg);
+  }
+}
+
+@keyframes shadowPulse {
+  0%,
+  100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(-50%) scale(0.86);
+    opacity: 0.65;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pet,
+  .pet-svg,
+  .eyes,
+  .antenna-glow,
+  .sparkles,
+  .foot,
+  .shadow {
+    animation: none !important;
+  }
+}
